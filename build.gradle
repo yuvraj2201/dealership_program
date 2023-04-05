@@ -1,0 +1,58 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("io.micronaut.application") version "3.7.7"
+    id("io.micronaut.test-resources") version "3.7.7"
+}
+
+version = "0.1"
+group = "com.dreamcar.dealership.service.autodealer"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut:micronaut-http-validation")
+    implementation("com.oracle.coherence.ce:coherence:${coherenceVersion}")
+    implementation("com.oracle.coherence.ce:coherence-java-client:${coherenceVersion}")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut:micronaut-jackson-databind")
+    implementation("io.micronaut.coherence:micronaut-coherence")
+    implementation("io.micronaut.coherence:micronaut-coherence-grpc-client")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut.flyway:micronaut-flyway")
+    implementation("io.micronaut.rabbitmq:micronaut-rabbitmq")
+    implementation("io.micronaut.sql:micronaut-jdbc-hikari")
+    implementation("jakarta.annotation:jakarta.annotation-api")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtimeOnly("mysql:mysql-connector-java")
+    runtimeOnly("org.flywaydb:flyway-mysql")
+    implementation("io.micronaut:micronaut-validation")
+
+}
+
+
+application {
+    mainClass.set("com.dreamcar.dealership.service.autodealer.Application")
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("11")
+    targetCompatibility = JavaVersion.toVersion("11")
+}
+
+graalvmNative.toolchainDetection = false
+micronaut {
+    runtime("netty")
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.dreamcar.dealership.service.autodealer.*")
+    }
+    testResources {
+        sharedServer = true
+    }
+}
+
+
+
